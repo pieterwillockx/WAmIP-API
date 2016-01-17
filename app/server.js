@@ -5,7 +5,8 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 8000;
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var router = express.Router();
 
 var mongoose = require('mongoose');
@@ -45,5 +46,6 @@ router.get('/methodlist/:methodtype', function(req, res){
 
 app.use('/api', router);
 
-app.listen(port);
-console.log('Magic happens on port ' + port);
+app.listen(server_port, server_ip_address, function(){
+	console.log("Listening on " + server_ip_address + ", server_port " + port);
+});
